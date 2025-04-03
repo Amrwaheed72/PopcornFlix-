@@ -6,19 +6,27 @@ import MoviesPage from './pages/MoviesPage';
 import MovieInfoPage from './pages/MovieInfoPage';
 import ProfilePage from './pages/ProfilePage';
 import Navbar from './ui/Navbar';
-import useStyles from './components/styles';
+
 const App = () => {
-    const theme = createTheme(); // Create a default theme
+    const theme = createTheme();
     return (
         <ThemeProvider theme={theme}>
             <BrowserRouter>
-                <Box sx={{ display: 'flex', height: '100%' }}>
+                <Box sx={{ display: 'flex', height: '100vh' }}>
                     <CssBaseline />
                     <Navbar />
-                    <Box>
-                        <Box></Box>
+                    <Box
+                        component="main"
+                        sx={{
+                            flexGrow: 1,
+                            marginTop: '80px',
+                            padding: '16px',
+                            height: 'calc(100% - 80px)',
+                            overflow: 'auto',
+                        }}
+                    >
                         <Routes>
-                            <Route index path="/" element={<MoviesPage />} />
+                            <Route path="/" element={<MoviesPage />} />
                             <Route
                                 path="/actors/:id"
                                 element={<ActorsPage />}
