@@ -6,6 +6,7 @@ import {
     Button,
     Avatar,
     useMediaQuery,
+    Box,
 } from '@mui/material';
 import {
     Menu,
@@ -68,7 +69,7 @@ const Navbar = () => {
                         )}
                     </IconButton>
                     {!isMobile && 'search here......'}
-                    <div>
+                    <Box>
                         {!isAuthenticated ? (
                             <Button color="inherit" onClick={() => {}}>
                                 Login <AccountCircle />
@@ -94,11 +95,11 @@ const Navbar = () => {
                                 />
                             </Button>
                         )}
-                    </div>
+                    </Box>
                     {isMobile && 'Search here......'}
                 </Toolbar>
             </AppBar>
-            <div>
+            <Box>
                 <nav>
                     {isMobile ? (
                         <Drawer
@@ -137,7 +138,7 @@ const Navbar = () => {
                         </Drawer>
                     )}
                 </nav>
-            </div>
+            </Box>
         </>
     );
 };

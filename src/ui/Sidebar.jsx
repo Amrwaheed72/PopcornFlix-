@@ -75,7 +75,7 @@ const Sidebar = ({ setMobileOpen }) => {
                 <ListSubheader>Categories</ListSubheader>
                 {categories.map(({ label, value }) => (
                     <Link
-                    key={value}
+                        key={value}
                         to="/"
                         style={{
                             color: theme.palette.text.primary,
@@ -106,7 +106,7 @@ const Sidebar = ({ setMobileOpen }) => {
                 <ListSubheader>Genres</ListSubheader>
                 {demoCategories.map(({ label, value }) => (
                     <Link
-                    key={value}
+                        key={value}
                         to="/"
                         style={{
                             color: theme.palette.text.primary,
