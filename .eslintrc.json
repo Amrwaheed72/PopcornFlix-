@@ -1,56 +1,56 @@
 {
-    "env": {
-        "browser": true,
-        "es2022": true // Updated from "es2021" to support modern JS features
+  "env": {
+    "browser": true,
+    "es2022": true // Updated from "es2021" to support modern JS features
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:react/jsx-runtime", // Added for modern React JSX handling
+    "prettier" // Prettier should still be last to override formatting rules
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
     },
-    "extends": [
-        "eslint:recommended",
-        "plugin:react/recommended",
-        "plugin:react-hooks/recommended",
-        "plugin:react/jsx-runtime", // Added for modern React JSX handling
-        "prettier" // Prettier should still be last to override formatting rules
-    ],
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": "latest", // Still fine, resolves to ES2024+ as of 2025
-        "sourceType": "module"
-    },
-    "plugins": ["react", "react-hooks"],
-    "settings": {
-        "react": {
-            "version": "detect" // Detects React version from package.json
-        }
-    },
-    "rules": {
-        // React-specific updates
-        "react/react-in-jsx-scope": "off", // Still valid, unnecessary with React 17+
-        "react/jsx-uses-react": "off", // Complementary rule for modern JSX transform
-        "react/prop-types": "off", // Unchanged, but consider TypeScript for types
-        "react/jsx-filename-extension": [1, { "extensions": [".jsx", ".tsx"] }], // Updated for flexibility
-        "react/state-in-constructor": "off", // Still fine, functional components dominate now
-        "react/no-array-index-key": "off", // Unchanged, but use with caution
-        "react/jsx-props-no-spreading": "off", // Unchanged, still a preference
-
-        // General JavaScript updates
-        "no-console": "warn", // Updated to "warn" for better dev feedback
-        "no-unused-vars": "warn", // Unchanged, still good
-        "no-param-reassign": "off", // Unchanged, still a preference
-        "max-len": [2, { "code": 120 }], // Reduced from 250 to a more standard 120
-        "import/no-cycle": "off", // Unchanged, still valid
-        "import/prefer-default-export": "off", // Unchanged, still a preference
-
-        // Accessibility (jsx-a11y) updates
-        "jsx-a11y/click-events-have-key-events": "warn",
-        "jsx-a11y/alt-text": "warn",
-        "jsx-a11y/no-autofocus": "off", // Unchanged
-        "jsx-a11y/no-static-element-interactions": "warn",
-        // Formatting and misc
-        "linebreak-style": "off", // Unchanged, still OS-agnostic
-        "object-curly-newline": "off", // Unchanged
-        "react/jsx-one-expression-per-line": "off", // Unchanged, Prettier handles this
-        "no-sparse-arrays": "off", // Unchanged
-        "no-array-index-key": "off" // Duplicate of react/no-array-index-key, can remove
+    "ecmaVersion": "latest", // Still fine, resolves to ES2024+ as of 2025
+    "sourceType": "module"
+  },
+  "plugins": ["react", "react-hooks"],
+  "settings": {
+    "react": {
+      "version": "detect" // Detects React version from package.json
     }
+  },
+  "rules": {
+    // React-specific updates
+    "react/react-in-jsx-scope": "off", // Still valid, unnecessary with React 17+
+    "react/jsx-uses-react": "off", // Complementary rule for modern JSX transform
+    "react/prop-types": "off", // Unchanged, but consider TypeScript for types
+    "react/jsx-filename-extension": [1, { "extensions": [".jsx", ".tsx"] }], // Updated for flexibility
+    "react/state-in-constructor": "off", // Still fine, functional components dominate now
+    "react/no-array-index-key": "off", // Unchanged, but use with caution
+    "react/jsx-props-no-spreading": "off", // Unchanged, still a preference
+
+    // General JavaScript updates
+    "no-console": "warn", // Updated to "warn" for better dev feedback
+    "no-unused-vars": "warn", // Unchanged, still good
+    "no-param-reassign": "off", // Unchanged, still a preference
+    "max-len": [2, { "code": 120 }], // Reduced from 250 to a more standard 120
+    "import/no-cycle": "off", // Unchanged, still valid
+    "import/prefer-default-export": "off", // Unchanged, still a preference
+
+    // Accessibility (jsx-a11y) updates
+    "jsx-a11y/click-events-have-key-events": "warn",
+    "jsx-a11y/alt-text": "warn",
+    "jsx-a11y/no-autofocus": "off", // Unchanged
+    "jsx-a11y/no-static-element-interactions": "warn",
+    // Formatting and misc
+    "linebreak-style": "off", // Unchanged, still OS-agnostic
+    "object-curly-newline": "off", // Unchanged
+    "react/jsx-one-expression-per-line": "off", // Unchanged, Prettier handles this
+    "no-sparse-arrays": "off", // Unchanged
+    "no-array-index-key": "off" // Duplicate of react/no-array-index-key, can remove
+  }
 }

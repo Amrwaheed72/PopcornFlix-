@@ -4,7 +4,7 @@ import { tmdbApi } from '../services/TMDB';
 
 const store = configureStore({
   reducer: {
-    [tmdbApi.reducerPath]: tmdbApi.reducer
+    [tmdbApi.reducerPath]: tmdbApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(tmdbApi.middleware),

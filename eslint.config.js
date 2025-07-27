@@ -52,7 +52,7 @@ export default tseslint.config(
       'react/jsx-uses-react': 'off',
       'react/prop-types': 'off',
       'no-console': 'warn',
-      "@typescript-eslint/no-unused-vars": "warn",
+      '@typescript-eslint/no-unused-vars': 'warn',
       'import/order': [
         'warn',
         {

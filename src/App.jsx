@@ -9,36 +9,45 @@ import { Provider } from 'react-redux';
 import store from './app/store';
 
 const App = () => {
-  const theme = createTheme();
-  return (
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <Box sx={{ display: 'flex', height: '100vh' }}>
-            <CssBaseline />
-            <Navbar />
-            <Box
-              component="main"
-              sx={{
-                flexGrow: 1,
-                marginTop: '80px',
-                padding: '16px',
-                height: 'calc(100% - 80px)',
-                overflow: 'auto',
-              }}
-            >
-              <Routes>
-                <Route path="/" element={<MoviesPage />} />
-                <Route path="/actors/:id" element={<ActorsPage />} />
-                <Route path="/movie/:id" element={<MovieInfoPage />} />
-                <Route path="/profile/:id" element={<ProfilePage />} />
-              </Routes>
-            </Box>
-          </Box>
-        </BrowserRouter>
-      </ThemeProvider>
-    </Provider>
-  );
+    const theme = createTheme();
+    return (
+        <Provider store={store}>
+            <ThemeProvider theme={theme}>
+                <BrowserRouter>
+                    <Box sx={{ display: 'flex', height: '100vh' }}>
+                        <CssBaseline />
+                        <Navbar />
+                        <Box
+                            component="main"
+                            sx={{
+                                flexGrow: 1,
+                                marginTop: '80px',
+                                padding: '16px',
+                                height: 'calc(100% - 80px)',
+                                overflow: 'auto',
+                            }}
+                        >
+                            <Routes>
+                                <Route path="/" element={<MoviesPage />} />
+                                <Route
+                                    path="/actors/:id"
+                                    element={<ActorsPage />}
+                                />
+                                <Route
+                                    path="/movie/:id"
+                                    element={<MovieInfoPage />}
+                                />
+                                <Route
+                                    path="/profile/:id"
+                                    element={<ProfilePage />}
+                                />
+                            </Routes>
+                        </Box>
+                    </Box>
+                </BrowserRouter>
+            </ThemeProvider>
+        </Provider>
+    );
 };
 
 export default App;
