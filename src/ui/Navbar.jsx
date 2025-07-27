@@ -25,7 +25,6 @@ const Navbar = () => {
     const isAuthenticated = true;
     const drawerWidth = 240;
     const theme = useTheme();
-    console.log(theme);
     return (
         <>
             <AppBar position="fixed">

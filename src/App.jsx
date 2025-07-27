@@ -6,11 +6,10 @@ import MovieInfoPage from './pages/MovieInfoPage';
 import ProfilePage from './pages/ProfilePage';
 import Navbar from './ui/Navbar';
 import { Provider } from 'react-redux';
-import store from './store';
+import store from './app/store';
 
 const App = () => {
   const theme = createTheme();
-  const amr = 10;
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
