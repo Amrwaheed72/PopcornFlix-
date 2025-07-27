@@ -1,4 +1,4 @@
-import MovieInformation from "../components/movieInformation/MovieInformation";
+import MovieInformation from '../components/movieInformation/MovieInformation';
 
 const MovieInfoPage = () => {
   return <MovieInformation />;

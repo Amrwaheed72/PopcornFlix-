@@ -1,4 +1,4 @@
-import Actors from "../components/actors/Actors";
+import Actors from '../components/actors/Actors';
 
 const ActorsPage = () => {
   return <Actors />;

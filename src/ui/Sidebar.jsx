@@ -59,7 +59,7 @@ const Sidebar = ({ setMobileOpen }) => {
                 >
                     <img
                         src={
-                            theme.palette.mode === 'light'
+                            theme.palette.mode === 'dark'
                                 ? '/red.png'
                                 : '/blue.png'
                         }
