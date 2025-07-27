@@ -77,7 +77,7 @@ const Sidebar = ({ setMobileOpen }) => {
                         color={
                             theme.palette.mode === 'dark'
                                 ? '#FF0000'
-                                : '#007BFF'
+                                : '#0561c3'
                         }
                     />
                 </Link>

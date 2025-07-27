@@ -78,7 +78,9 @@ const Logo = ({ color = '#FF0000' }) => {
 
             <text fontSize="100" filter="url(#dropShadow)">
                 <textPath href="#curve" startOffset="50%" textAnchor="middle">
-                    <tspan fill={color}>POPCORNFLIX</tspan>
+                    <tspan fontWeight="bold" fill={color}>
+                        POPCORNFLIX
+                    </tspan>
                 </textPath>
             </text>
 
@@ -87,6 +89,7 @@ const Logo = ({ color = '#FF0000' }) => {
                     href="#curve"
                     startOffset="50%"
                     textAnchor="middle"
+                    fontWeight="bold"
                     fill="url(#textGradient)"
                 >
                     POPCORNFLIX
