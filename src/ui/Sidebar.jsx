@@ -8,6 +8,7 @@ import {
     ListSubheader,
     useTheme,
 } from '@mui/material';
+import Logo from '../ui/Logo';
 import { Link } from 'react-router-dom';
 import { Box } from '@mui/material';
 const Sidebar = ({ setMobileOpen }) => {
@@ -55,9 +56,12 @@ const Sidebar = ({ setMobileOpen }) => {
             >
                 <Link
                     to="/"
-                    style={{ textDecoration: 'none', margin: '0 auto' }}
+                    style={{
+                        textDecoration: 'none',
+                        margin: '0 auto',
+                    }}
                 >
-                    <img
+                    {/* <img
                         src={
                             theme.palette.mode === 'dark'
                                 ? '/red.png'
@@ -67,6 +71,14 @@ const Sidebar = ({ setMobileOpen }) => {
                         style={{
                             width: '100px',
                         }}
+                    /> */}
+                    <Logo
+                        // color="#ff0000"
+                        color={
+                            theme.palette.mode === 'dark'
+                                ? '#FF0000'
+                                : '#007BFF'
+                        }
                     />
                 </Link>
             </Box>
@@ -82,7 +94,7 @@ const Sidebar = ({ setMobileOpen }) => {
                             textDecoration: 'none',
                         }}
                     >
-                        <ListItemButton onClick={() => {}}>
+                        <ListItem onClick={() => {}}>
                             <ListItemIcon>
                                 <img
                                     src="/red.png"
@@ -97,7 +109,7 @@ const Sidebar = ({ setMobileOpen }) => {
                                 />
                             </ListItemIcon>
                             <ListItemText primary={label} />
-                        </ListItemButton>
+                        </ListItem>
                     </Link>
                 ))}
             </List>
@@ -113,7 +125,7 @@ const Sidebar = ({ setMobileOpen }) => {
                             textDecoration: 'none',
                         }}
                     >
-                        <ListItemButton onClick={() => {}}>
+                        <ListItem onClick={() => {}}>
                             <ListItemIcon>
                                 <img
                                     src="/red.png"
@@ -128,7 +140,7 @@ const Sidebar = ({ setMobileOpen }) => {
                                 />
                             </ListItemIcon>
                             <ListItemText primary={label} />
-                        </ListItemButton>
+                        </ListItem>
                     </Link>
                 ))}
             </List>
