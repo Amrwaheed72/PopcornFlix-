@@ -26,7 +26,6 @@ import { setUser, userSelector } from '../app/UserSlice';
 const Navbar = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
     const isMobile = useMediaQuery('(max-width:600px)');
-    // const isAuthenticated = false;
     const drawerWidth = 240;
     const theme = useTheme();
     const token = localStorage.getItem('request_token');
@@ -38,13 +37,11 @@ const Navbar = () => {
         const loginUser = async () => {
             if (token) {
                 if (sessionIdFromLocalStorage) {
-                    console.log(1);
                     const { data: userData } = await movieApi.get(
                         `/account?session_id=${sessionIdFromLocalStorage}`,
                     );
                     dispatch(setUser(userData));
                 } else {
-                    console.log(2);
                     const sessionId = await createSessionId();
                     const { data: userData } = await movieApi.get(
                         `/account?session_id=${sessionId}`,

@@ -29,6 +29,7 @@ export const tmdbApi = createApi({
         if (genreIdOrCategoryName && typeof genreIdOrCategoryName === 'number') {
           return `discover/movie?with_genres=${genreIdOrCategoryName}&language=en-US&page=${page}`
         }
+        //get one movie
         // get popular movies
         return `movie/popular?language=en-US&page=${page}`
       },
@@ -36,7 +37,10 @@ export const tmdbApi = createApi({
     getGenres: builder.query({
       query: () => `genre/movie/list?language=en`,
     }),
+    getMovie: builder.query({
+      query: (movieId) => `movie/${movieId}?language=en-US&append_to_response=videos&credits`
+    })
   }),
 });
 
-export const { useGetMoviesQuery, useGetGenresQuery } = tmdbApi;
+export const { useGetMoviesQuery, useGetGenresQuery, useGetMovieQuery } = tmdbApi;

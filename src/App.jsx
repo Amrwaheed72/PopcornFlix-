@@ -30,11 +30,11 @@ const App = () => {
                             <Routes>
                                 <Route path="/" element={<MoviesPage />} />
                                 <Route
-                                    path="/actors/:id"
+                                    path="/actors/:actorId"
                                     element={<ActorsPage />}
                                 />
                                 <Route
-                                    path="/movie/:id"
+                                    path="/movie/:movieId"
                                     element={<MovieInfoPage />}
                                 />
                                 <Route
