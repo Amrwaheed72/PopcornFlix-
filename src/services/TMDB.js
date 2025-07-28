@@ -1,14 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const accessToken = import.meta.env.VITE_TMDB_API_KEY;
-const page = 1;
 export const tmdbApi = createApi({
   reducerPath: 'tmdbApi',
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://api.themoviedb.org/3',
     prepareHeaders: (headers) => {
       if (accessToken) {
-        headers.set('Authorization', `Bearer ${accessToken}`); // ✅ Proper format
+        headers.set('Authorization', `Bearer ${accessToken}`);
       }
       headers.set('accept', 'application/json');
       return headers;
@@ -16,7 +15,18 @@ export const tmdbApi = createApi({
   }),
   endpoints: (builder) => ({
     getMovies: builder.query({
-      query: () => `movie/popular?language=en-US&page=${page}`,
+      query: ({ genreIdOrCategoryName, page }) => {
+        //get movies by categories
+        if (genreIdOrCategoryName && typeof genreIdOrCategoryName === 'string') {
+          return `movie/${genreIdOrCategoryName}?language=en-US&page=${page}`
+        }
+        //get movies by genre
+        if (genreIdOrCategoryName && typeof genreIdOrCategoryName === 'number') {
+          return `discover/movie?with_genres=${genreIdOrCategoryName}&language=ar-EG&page=${page}`
+        }
+        // get popular movies
+        return `movie/popular?language=en-US&page=${page}`
+      },
     }),
     getGenres: builder.query({
       query: () => `genre/movie/list?language=en`,

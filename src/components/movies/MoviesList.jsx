@@ -2,7 +2,6 @@ import { Grid } from '@mui/material';
 import Movie from './Movie';
 
 const MoviesList = ({ movies }) => {
-    console.log(movies);
     return (
         <Grid
             container

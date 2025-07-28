@@ -14,9 +14,15 @@ import { useGetGenresQuery } from '../services/TMDB';
 import Logo from '../ui/Logo';
 import GenreSkeletonsItem from './GenreSkeletonsItem';
 import genreIcons from '../assets/genres';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectGenreOrCategory } from '../app/currentGenreOrCategory';
 const Sidebar = ({ setMobileOpen }) => {
+    const { genreIdOrCategoryName } = useSelector(
+        (state) => state.currentGenreOrCategory,
+    );
     const theme = useTheme();
     const { data, isLoading, error } = useGetGenresQuery();
+    const dispatch = useDispatch();
     if (error) {
         return (
             <Box sx={{ padding: 2, color: 'error.main' }}>
@@ -31,7 +37,7 @@ const Sidebar = ({ setMobileOpen }) => {
         },
         {
             label: 'Top Rated',
-            value: 'top-rated',
+            value: 'top_rated',
         },
         {
             label: 'Upcoming',
@@ -76,7 +82,11 @@ const Sidebar = ({ setMobileOpen }) => {
                             textDecoration: 'none',
                         }}
                     >
-                        <ListItemButton onClick={() => {}}>
+                        <ListItemButton
+                            onClick={() =>
+                                dispatch(selectGenreOrCategory(value))
+                            }
+                        >
                             <ListItemIcon>
                                 <img
                                     src={genreIcons[label.toLowerCase()]}
@@ -112,7 +122,11 @@ const Sidebar = ({ setMobileOpen }) => {
                                   textDecoration: 'none',
                               }}
                           >
-                              <ListItemButton onClick={() => {}}>
+                              <ListItemButton
+                                  onClick={() =>
+                                      dispatch(selectGenreOrCategory(genre.id))
+                                  }
+                              >
                                   <ListItemIcon>
                                       <img
                                           src={
