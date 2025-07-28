@@ -17,7 +17,7 @@ const Movie = ({ movie, i }) => {
             size={{ xs: 12, sm: 6, md: 4, lg: 3, xl: 2 }}
             sx={{ padding: '10px' }}
         >
-            <Grow in key={i} timeout={(i + 1) * 250}>
+            <Grow in key={i} timeout={(i + 1) * 200}>
                 <MuiLink
                     component={RouterLink}
                     to={`/movie/${movie.id}`}

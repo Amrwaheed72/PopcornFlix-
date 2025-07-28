@@ -15,14 +15,19 @@ export const tmdbApi = createApi({
   }),
   endpoints: (builder) => ({
     getMovies: builder.query({
-      query: ({ genreIdOrCategoryName, page }) => {
+      query: ({ genreIdOrCategoryName, page, searchQuery }) => {
+
+        //get Movies by search
+        if (searchQuery) {
+          return `/search/movie?query=${searchQuery}&page=${page}&language=en-US`
+        }
         //get movies by categories
         if (genreIdOrCategoryName && typeof genreIdOrCategoryName === 'string') {
           return `movie/${genreIdOrCategoryName}?language=en-US&page=${page}`
         }
         //get movies by genre
         if (genreIdOrCategoryName && typeof genreIdOrCategoryName === 'number') {
-          return `discover/movie?with_genres=${genreIdOrCategoryName}&language=ar-EG&page=${page}`
+          return `discover/movie?with_genres=${genreIdOrCategoryName}&language=en-US&page=${page}`
         }
         // get popular movies
         return `movie/popular?language=en-US&page=${page}`
