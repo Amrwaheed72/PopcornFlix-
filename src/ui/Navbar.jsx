@@ -15,17 +15,47 @@ import {
     Brightness7,
 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
 import { useTheme } from '@mui/material/styles';
 import Search from './Search';
+import { createSessionId, fetchToken, movieApi } from '../utils';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser, userSelector } from '../app/UserSlice';
 
 const Navbar = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
     const isMobile = useMediaQuery('(max-width:600px)');
-    const isAuthenticated = true;
+    // const isAuthenticated = false;
     const drawerWidth = 240;
     const theme = useTheme();
+    const token = localStorage.getItem('request_token');
+    const sessionIdFromLocalStorage = localStorage.getItem('session_id');
+
+    const dispatch = useDispatch();
+    const { user, isAuthenticated, sessionId } = useSelector(userSelector);
+    useEffect(() => {
+        const loginUser = async () => {
+            if (token) {
+                if (sessionIdFromLocalStorage) {
+                    console.log(1);
+                    const { data: userData } = await movieApi.get(
+                        `/account?session_id=${sessionIdFromLocalStorage}`,
+                    );
+                    dispatch(setUser(userData));
+                } else {
+                    console.log(2);
+                    const sessionId = await createSessionId();
+                    const { data: userData } = await movieApi.get(
+                        `/account?session_id=${sessionId}`,
+                    );
+                    dispatch(setUser(userData));
+                }
+            }
+        };
+        loginUser();
+    }, [token]);
+
     return (
         <>
             <AppBar position="fixed">
@@ -73,7 +103,7 @@ const Navbar = () => {
                         {!isAuthenticated ? (
                             <Button
                                 color="inherit"
-                                onClick={() => {}}
+                                onClick={fetchToken}
                                 sx={{
                                     display: 'flex',
                                     gap: '10px',
@@ -94,7 +124,7 @@ const Navbar = () => {
                                 }}
                                 color="inherit"
                                 component={Link}
-                                to="/profile/2"
+                                to={`/profile/${user.id}`}
                                 onClick={() => {}}
                             >
                                 {!isMobile && <>My Movies </>}
