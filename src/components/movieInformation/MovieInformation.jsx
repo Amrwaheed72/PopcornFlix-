@@ -1,6 +1,10 @@
-import { Link as RouterLink, useParams } from 'react-router-dom';
-import { useGetMovieQuery } from '../../services/TMDB';
-import { Link as MuiLink } from '@mui/material';
+import { Link, Link as RouterLink, useParams } from 'react-router-dom';
+import {
+    useGetCreditsQuery,
+    useGetMovieQuery,
+    useGetRecommendationsQuery,
+} from '../../services/TMDB';
+import { Button, ButtonGroup, Link as MuiLink } from '@mui/material';
 import {
     Box,
     Grid,
@@ -12,13 +16,31 @@ import {
 import genreIcons from '../../assets/genres';
 import { useDispatch } from 'react-redux';
 import { selectGenreOrCategory } from '../../app/currentGenreOrCategory';
+import {
+    ArrowBack,
+    Favorite,
+    FavoriteBorderOutlined,
+    Language,
+    MovieOutlined,
+    PlusOne,
+    Remove,
+    Theaters,
+} from '@mui/icons-material';
+import MoviesList from '../movies/MoviesList';
 
 const MovieInformation = () => {
     const { movieId } = useParams();
     const theme = useTheme();
-    console.log(movieId);
     const dispatch = useDispatch();
     const { data, isLoading, error } = useGetMovieQuery(movieId);
+    const {
+        data: recommendations,
+        isLoading: loadingRecommendations,
+        error: errorRecommendations,
+    } = useGetRecommendationsQuery({ movieId, list: '/recommendations' });
+    const isMovieFavorited = true;
+    const isMovieWatchListed = true;
+    console.log(recommendations);
     if (error) {
         return (
             <Box>
@@ -28,7 +50,8 @@ const MovieInformation = () => {
             </Box>
         );
     }
-    console.log(data);
+    const addToFavorites = () => {};
+    const addToWatchList = () => {};
     return (
         <Grid
             container
@@ -42,7 +65,7 @@ const MovieInformation = () => {
                 },
             }}
         >
-            <Grid item sm={12} lg={4}>
+            <Grid size={{ sm: 12, lg: 4 }}>
                 <Box
                     component="img"
                     sx={{
@@ -73,7 +96,7 @@ const MovieInformation = () => {
                     alt={data?.title}
                 />
             </Grid>
-            <Grid item container direction="column" lg={7}>
+            <Grid container direction="column" size={{ lg: 7 }}>
                 <Typography
                     variant="h3"
                     align="center"
@@ -86,7 +109,6 @@ const MovieInformation = () => {
                     {data?.tagline}
                 </Typography>
                 <Grid
-                    item
                     sx={{
                         display: 'flex',
                         justifyContent: 'space-around',
@@ -126,12 +148,12 @@ const MovieInformation = () => {
                     </Typography>
                 </Grid>
                 <Grid
-                    item
                     sx={{
                         margin: '10px 0',
                         display: 'flex',
                         justifyContent: 'space-around',
                         flexWrap: 'wrap',
+                        gap: '10px',
                     }}
                 >
                     {data?.genres?.map((genre, i) => (
@@ -142,6 +164,7 @@ const MovieInformation = () => {
                                 display: 'flex',
                                 justifyContent: 'center',
                                 alignItems: 'center',
+                                textDecoration: 'none',
                                 [theme.breakpoints.down('sm')]: {
                                     padding: '0.5rem 1rem',
                                 },
@@ -169,7 +192,203 @@ const MovieInformation = () => {
                         </MuiLink>
                     ))}
                 </Grid>
+                <Typography
+                    variant="h5"
+                    gutterBottom
+                    sx={{ marginTop: '10px' }}
+                >
+                    Overview
+                </Typography>
+                <Typography sx={{ marginBottom: '2rem' }}>
+                    {data?.overview}
+                </Typography>
+                <Typography variant="h5" gutterBottom>
+                    Top Cast
+                </Typography>
+                <Grid container spacing={2}>
+                    {data &&
+                        data.credits?.cast
+                            ?.map(
+                                (character, i) =>
+                                    character.profile_path && (
+                                        <Grid
+                                            key={i}
+                                            size={{ xs: 4, sm: 3, md: 2 }}
+                                            component={Link}
+                                            to={`/actors/${character.id}`}
+                                            sx={{ textDecoration: 'none' }}
+                                        >
+                                            <Box
+                                                component="img"
+                                                src={`https://image.tmdb.org/t/p/w500/${character.profile_path}`}
+                                                alt={character.name}
+                                                sx={{
+                                                    width: '100%',
+                                                    maxWidth: '7em',
+                                                    height: '8em',
+                                                    objectFit: 'cover',
+                                                    borderRadius: '10px',
+                                                }}
+                                            />
+                                            <Typography color="textPrimary">
+                                                {character.name}
+                                            </Typography>
+                                            <Typography color="textSecondary">
+                                                {
+                                                    character.character.split(
+                                                        '/',
+                                                    )[0]
+                                                }
+                                            </Typography>
+                                        </Grid>
+                                    ),
+                            )
+                            .slice(0, 10)}
+                </Grid>
+                <Grid container sx={{ marginTop: '2rem' }}>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            width: '100%',
+                            [theme.breakpoints.down('sm')]: {
+                                flexDirection: 'column',
+                            },
+                        }}
+                    >
+                        <Grid
+                            size={{ xs: 12, sm: 6 }}
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                width: '100%',
+                                [theme.breakpoints.down('sm')]: {
+                                    flexDirection: 'column',
+                                },
+                            }}
+                        >
+                            <ButtonGroup size="medium" variant="outlined">
+                                <Tooltip title="Go to the official website ">
+                                    <Button
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        href={data?.homepage}
+                                        endIcon={<Language />}
+                                    >
+                                        Website
+                                    </Button>
+                                </Tooltip>
+                                <Tooltip title="Go to IMDB website ">
+                                    <Button
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        href={`https://www.imdb.com/title/${data?.imdb_id}`}
+                                        endIcon={<MovieOutlined />}
+                                    >
+                                        IMDB
+                                    </Button>
+                                </Tooltip>
+                                <Tooltip title="Watch the official trailer">
+                                    <Button
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        href={`https://www.imdb.com/title/${data?.imdb_id}`}
+                                        endIcon={<Theaters />}
+                                        onClick={() => {}}
+                                    >
+                                        Trailer
+                                    </Button>
+                                </Tooltip>
+                            </ButtonGroup>
+                        </Grid>
+                        <Grid
+                            size={{ xs: 12, sm: 6 }}
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                width: '100%',
+                                [theme.breakpoints.down('sm')]: {
+                                    flexDirection: 'column',
+                                },
+                            }}
+                        >
+                            <ButtonGroup size="medium" variant="outlined">
+                                <Tooltip
+                                    title={
+                                        isMovieFavorited
+                                            ? 'remove from favorites'
+                                            : 'add to favorites'
+                                    }
+                                >
+                                    <Button
+                                        onClick={addToFavorites}
+                                        endIcon={
+                                            isMovieFavorited ? (
+                                                <FavoriteBorderOutlined />
+                                            ) : (
+                                                <Favorite />
+                                            )
+                                        }
+                                    >
+                                        {isMovieFavorited
+                                            ? 'unFavorite'
+                                            : 'Favorite'}
+                                    </Button>
+                                </Tooltip>
+                                <Tooltip
+                                    title={
+                                        isMovieWatchListed
+                                            ? 'Remove from Watchlist'
+                                            : 'Add to Watchlist'
+                                    }
+                                >
+                                    <Button
+                                        onClick={addToWatchList}
+                                        endIcon={
+                                            isMovieWatchListed ? (
+                                                <Remove />
+                                            ) : (
+                                                <PlusOne />
+                                            )
+                                        }
+                                    >
+                                        {isMovieWatchListed
+                                            ? 'Watchlist'
+                                            : 'Watchlist'}
+                                    </Button>
+                                </Tooltip>
+                                <Tooltip title="Go to home page">
+                                    <Button
+                                        endIcon={<ArrowBack />}
+                                        sx={{ borderColor: 'primary.main' }}
+                                        onClick={() => {}}
+                                    >
+                                        <Typography
+                                            component={Link}
+                                            to="/"
+                                            color="inherit"
+                                            variant="subtitle2"
+                                            sx={{ textDecoration: 'none' }}
+                                        >
+                                            Back
+                                        </Typography>
+                                    </Button>
+                                </Tooltip>
+                            </ButtonGroup>
+                        </Grid>
+                    </Box>
+                </Grid>
             </Grid>
+            <Box marginTop="5rem" width="100%">
+                <Typography variant="h3" gutterBottom align="center">
+                    You might also like
+                </Typography>
+                {recommendations ? (
+                    <MoviesList movies={recommendations} numberOfMovies={18} />
+                ) : (
+                    <Box>Sorry nothing was found </Box>
+                )}
+            </Box>
         </Grid>
     );
 };

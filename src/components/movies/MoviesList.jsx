@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material';
 import Movie from './Movie';
 
-const MoviesList = ({ movies }) => {
+const MoviesList = ({ movies, numberOfMovies }) => {
     return (
         <Grid
             container
@@ -15,7 +15,7 @@ const MoviesList = ({ movies }) => {
                 overflow: 'auto',
             }}
         >
-            {movies.results.map((movie, i) => (
+            {movies.results.slice(0,numberOfMovies).map((movie, i) => (
                 <Movie key={movie.id} movie={movie} i={i} />
             ))}
         </Grid>
