@@ -4,7 +4,13 @@ import {
     useGetMovieQuery,
     useGetRecommendationsQuery,
 } from '../../services/TMDB';
-import { Button, ButtonGroup, Link as MuiLink } from '@mui/material';
+import {
+    Button,
+    ButtonGroup,
+    Modal,
+    Link as MuiLink,
+    useMediaQuery,
+} from '@mui/material';
 import {
     Box,
     Grid,
@@ -27,12 +33,15 @@ import {
     Theaters,
 } from '@mui/icons-material';
 import MoviesList from '../movies/MoviesList';
+import { useState } from 'react';
 
 const MovieInformation = () => {
+    const [open, setOpen] = useState(false);
     const { movieId } = useParams();
     const theme = useTheme();
     const dispatch = useDispatch();
     const { data, isLoading, error } = useGetMovieQuery(movieId);
+    console.log(theme);
     const {
         data: recommendations,
         isLoading: loadingRecommendations,
@@ -40,6 +49,11 @@ const MovieInformation = () => {
     } = useGetRecommendationsQuery({ movieId, list: '/recommendations' });
     const isMovieFavorited = true;
     const isMovieWatchListed = true;
+    const trailer = data?.videos?.results?.find(
+        (video) => video.type === 'Trailer' && video.site === 'YouTube',
+    );
+    const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
+
     console.log(recommendations);
     if (error) {
         return (
@@ -50,14 +64,13 @@ const MovieInformation = () => {
             </Box>
         );
     }
+    console.log(data);
     const addToFavorites = () => {};
     const addToWatchList = () => {};
     return (
         <Grid
             container
             sx={{
-                display: 'flex',
-                justifyContent: 'space-around',
                 margin: '10px 0 ',
                 [theme.breakpoints.down('sm')]: {
                     flexDirection: 'column',
@@ -65,7 +78,11 @@ const MovieInformation = () => {
                 },
             }}
         >
-            <Grid size={{ sm: 12, lg: 4 }}>
+            <Grid
+                display="flex"
+                justifyContent="center"
+                size={{ sm: 12, lg: 6 }}
+            >
                 <Box
                     component="img"
                     sx={{
@@ -74,14 +91,14 @@ const MovieInformation = () => {
                         width: '80%',
 
                         [theme.breakpoints.down('md')]: {
-                            display: 'block',
+                            // display: 'block',
                             margin: '0 auto',
                             width: '50%',
                             // height: '350px',
                         },
 
                         [theme.breakpoints.down('sm')]: {
-                            display: 'block',
+                            // display: 'block',
                             margin: '0 auto',
                             width: '100%',
                             // height: '350px',
@@ -96,7 +113,7 @@ const MovieInformation = () => {
                     alt={data?.title}
                 />
             </Grid>
-            <Grid container direction="column" size={{ lg: 7 }}>
+            <Grid direction="column" size={{ lg: 6 }}>
                 <Typography
                     variant="h3"
                     align="center"
@@ -119,7 +136,7 @@ const MovieInformation = () => {
                         },
                     }}
                 >
-                    <Box display="flex" align="center">
+                    <Box display="flex" justifyContent="center" align="center">
                         <Tooltip
                             disableTouchListener
                             title={`${data?.vote_average} / 10`}
@@ -165,9 +182,9 @@ const MovieInformation = () => {
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 textDecoration: 'none',
-                                [theme.breakpoints.down('sm')]: {
-                                    padding: '0.5rem 1rem',
-                                },
+                                padding: '0.5rem 1rem',
+                                border: '1px solid grey',
+                                borderRadius: '20px',
                             }}
                             to="/"
                             onClick={() =>
@@ -205,7 +222,7 @@ const MovieInformation = () => {
                 <Typography variant="h5" gutterBottom>
                     Top Cast
                 </Typography>
-                <Grid container spacing={2}>
+                <Grid container spacing={1}>
                     {data &&
                         data.credits?.cast
                             ?.map(
@@ -243,31 +260,41 @@ const MovieInformation = () => {
                                         </Grid>
                                     ),
                             )
-                            .slice(0, 10)}
+                            .slice(0, 6)}
                 </Grid>
                 <Grid container sx={{ marginTop: '2rem' }}>
                     <Box
                         sx={{
                             display: 'flex',
-                            justifyContent: 'space-between',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'flex-start',
+                            gap: '1rem',
                             width: '100%',
-                            [theme.breakpoints.down('sm')]: {
+                            [theme.breakpoints.down('lg')]: {
+                                flexDirection: 'row',
+                            },
+                            [theme.breakpoints.down('md')]: {
                                 flexDirection: 'column',
                             },
                         }}
                     >
                         <Grid
-                            size={{ xs: 12, sm: 6 }}
+                            size={{ sm: 6 }}
                             sx={{
                                 display: 'flex',
                                 justifyContent: 'space-between',
                                 width: '100%',
-                                [theme.breakpoints.down('sm')]: {
-                                    flexDirection: 'column',
-                                },
+                                // [theme.breakpoints.down('sm')]: {
+                                //     flexDirection: 'column',
+                                // },
                             }}
                         >
-                            <ButtonGroup size="medium" variant="outlined">
+                            <ButtonGroup
+                                // sx={{ width: '100%' }}
+                                size="medium"
+                                variant="outlined"
+                            >
                                 <Tooltip title="Go to the official website ">
                                     <Button
                                         target="_blank"
@@ -290,11 +317,9 @@ const MovieInformation = () => {
                                 </Tooltip>
                                 <Tooltip title="Watch the official trailer">
                                     <Button
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        href={`https://www.imdb.com/title/${data?.imdb_id}`}
+                                        href="#"
                                         endIcon={<Theaters />}
-                                        onClick={() => {}}
+                                        onClick={() => setOpen(true)}
                                     >
                                         Trailer
                                     </Button>
@@ -302,7 +327,7 @@ const MovieInformation = () => {
                             </ButtonGroup>
                         </Grid>
                         <Grid
-                            size={{ xs: 12, sm: 6 }}
+                            size={{ sm: 6 }}
                             sx={{
                                 display: 'flex',
                                 justifyContent: 'space-between',
@@ -389,6 +414,36 @@ const MovieInformation = () => {
                     <Box>Sorry nothing was found </Box>
                 )}
             </Box>
+            <Modal
+                open={open}
+                onClose={() => setOpen(false)}
+                closeAfterTransition
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+            >
+                <Box
+                    sx={{
+                        width: isSmall ? '90%' : '50%',
+                        height: isSmall ? '90%' : '50%',
+                        aspectRatio: '16/9',
+                    }}
+                >
+                    {trailer && (
+                        <iframe
+                            width="100%"
+                            height="100%"
+                            frameBorder="0"
+                            title="Trailer"
+                            src={`https://www.youtube.com/embed/${trailer.key}`}
+                            allow="autoplay"
+                            allowFullScreen
+                        />
+                    )}
+                </Box>
+            </Modal>
         </Grid>
     );
 };
