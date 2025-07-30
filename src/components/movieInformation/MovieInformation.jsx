@@ -41,7 +41,6 @@ const MovieInformation = () => {
     const theme = useTheme();
     const dispatch = useDispatch();
     const { data, isLoading, error } = useGetMovieQuery(movieId);
-    console.log(theme);
     const {
         data: recommendations,
         isLoading: loadingRecommendations,
@@ -54,7 +53,6 @@ const MovieInformation = () => {
     );
     const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
 
-    console.log(recommendations);
     if (error) {
         return (
             <Box>
@@ -64,7 +62,6 @@ const MovieInformation = () => {
             </Box>
         );
     }
-    console.log(data);
     const addToFavorites = () => {};
     const addToWatchList = () => {};
     return (
@@ -78,11 +75,7 @@ const MovieInformation = () => {
                 },
             }}
         >
-            <Grid
-                display="flex"
-                justifyContent="center"
-                size={{ sm: 12, lg: 6 }}
-            >
+            <Grid size={{ sm: 12, lg: 6, xl: 5 }}>
                 <Box
                     component="img"
                     sx={{
@@ -317,7 +310,7 @@ const MovieInformation = () => {
                                 </Tooltip>
                                 <Tooltip title="Watch the official trailer">
                                     <Button
-                                        href="#"
+                                        // href="#"
                                         endIcon={<Theaters />}
                                         onClick={() => setOpen(true)}
                                     >
