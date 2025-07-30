@@ -13,10 +13,12 @@ import {
 } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
 import MoviesList from '../movies/MoviesList';
+import { useState } from 'react';
+import Pagination from '../../ui/Pagination';
 
 const Actors = () => {
+    const [page, setPage] = useState(1);
     const { actorId } = useParams();
-    const page = 1;
     const { data, isLoading, error } = useGetActorQuery(actorId);
     const {
         data: actorMovies,
@@ -136,6 +138,11 @@ const Actors = () => {
                 {actorMovies && (
                     <MoviesList movies={actorMovies} numberOfMovies="12" />
                 )}
+                <Pagination
+                    page={page}
+                    setPage={setPage}
+                    totalPages={actorMovies?.total_pages}
+                />
             </Box>
         </>
     );
