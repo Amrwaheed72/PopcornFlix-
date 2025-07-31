@@ -1,6 +1,8 @@
 import {
     Box,
     CircularProgress,
+    Grid,
+    Skeleton,
     Typography,
     useMediaQuery,
 } from '@mui/material';
@@ -10,6 +12,7 @@ import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import Pagination from '../../ui/Pagination';
 import FeaturedMovie from '../FeaturedMovie/FeaturedMovie';
+import MoviesSkeleton from './MoviesSkeleton';
 
 const Movies = () => {
     const [page, setPage] = useState(1);
@@ -23,29 +26,27 @@ const Movies = () => {
     });
     const lg = useMediaQuery((theme) => theme.breakpoints.only('lg'));
     const numberOfMovies = lg ? 17 : 19;
-    if (isLoading) {
-        return (
-            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                <CircularProgress size="4rem" />
-            </Box>
-        );
-    }
-    if (!data?.results.length) {
-        return (
-            <Box sx={{ display: 'flex', alignItems: 'center', mt: '20px' }}>
-                <Typography variant="h4">
-                    No movies that match that name.
-                </Typography>
-                <br />
-                Please search for something else
-            </Box>
-        );
-    }
+    // if (isLoading) {
+    //     return (
+    //         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+    //             <CircularProgress size="4rem" />
+    //         </Box>
+    //     );
+    // }
     if (error) return 'An error has occurred';
-    return (
+    return isLoading ? (
+        <Grid>
+            <Skeleton sx={{ width: '100%' }} height={500} variant="rectangle" />
+            <MoviesSkeleton />
+        </Grid>
+    ) : (
         <div>
             <FeaturedMovie movie={data.results[0]} />
-            <MoviesList movies={data} numberOfMovies={numberOfMovies}  excludeFirst />
+            <MoviesList
+                movies={data}
+                numberOfMovies={numberOfMovies}
+                excludeFirst
+            />
             <Pagination
                 page={page}
                 setPage={setPage}
