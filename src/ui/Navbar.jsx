@@ -22,6 +22,7 @@ import Search from './Search';
 import { createSessionId, fetchToken, movieApi } from '../utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser, userSelector } from '../app/UserSlice';
+import { useToggleMode } from '../utils/ToggleColorMode';
 
 const Navbar = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -30,6 +31,7 @@ const Navbar = () => {
     const theme = useTheme();
     const token = localStorage.getItem('request_token');
     const sessionIdFromLocalStorage = localStorage.getItem('session_id');
+    const { toggleColorMode } = useToggleMode();
 
     const dispatch = useDispatch();
     const { user, isAuthenticated, sessionId } = useSelector(userSelector);
@@ -87,7 +89,7 @@ const Navbar = () => {
                     <IconButton
                         color="inherit"
                         sx={{ ml: 1 }}
-                        onClick={() => {}}
+                        onClick={toggleColorMode}
                     >
                         {theme.palette.mode === 'dark' ? (
                             <Brightness7 />
@@ -122,13 +124,13 @@ const Navbar = () => {
                                 color="inherit"
                                 component={Link}
                                 to={`/profile/${user.id}`}
-                                onClick={() => {}}
+                                onClick={toggleColorMode}
                             >
                                 {!isMobile && <>My Movies </>}
                                 <Avatar
                                     sx={{ width: 30, height: 30 }}
                                     alt="Profile"
-                                    src="/Amr.jpg"
+                                    src={`https://www.themoviedb.org/t/p/w64_and_h64_face${user?.avatar?.tmdb?.avatar_path}`}
                                 />
                             </Button>
                         )}

@@ -16,10 +16,14 @@ import GenreSkeletonsItem from './GenreSkeletonsItem';
 import genreIcons from '../assets/genres';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectGenreOrCategory } from '../app/currentGenreOrCategory';
+import { useEffect } from 'react';
 const Sidebar = ({ setMobileOpen }) => {
     const { genreIdOrCategoryName } = useSelector(
         (state) => state.currentGenreOrCategory,
     );
+    useEffect(() => {
+        setMobileOpen(false);
+    }, [genreIdOrCategoryName]);
     const theme = useTheme();
     const { data, isLoading, error } = useGetGenresQuery();
     const dispatch = useDispatch();
@@ -96,7 +100,7 @@ const Sidebar = ({ setMobileOpen }) => {
                                         filter:
                                             theme.palette.mode === 'dark'
                                                 ? 'invert(1)'
-                                                : 'dark',
+                                                : 'none',
                                     }}
                                 />
                             </ListItemIcon>

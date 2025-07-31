@@ -9,6 +9,7 @@ import MoviesList from './MoviesList';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import Pagination from '../../ui/Pagination';
+import FeaturedMovie from '../FeaturedMovie/FeaturedMovie';
 
 const Movies = () => {
     const [page, setPage] = useState(1);
@@ -21,7 +22,7 @@ const Movies = () => {
         searchQuery,
     });
     const lg = useMediaQuery((theme) => theme.breakpoints.only('lg'));
-    const numberOfMovies = lg ? 16 : 18;
+    const numberOfMovies = lg ? 17 : 19;
     if (isLoading) {
         return (
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -43,7 +44,8 @@ const Movies = () => {
     if (error) return 'An error has occurred';
     return (
         <div>
-            <MoviesList movies={data} numberOfMovies={numberOfMovies} />
+            <FeaturedMovie movie={data.results[0]} />
+            <MoviesList movies={data} numberOfMovies={numberOfMovies}  excludeFirst />
             <Pagination
                 page={page}
                 setPage={setPage}

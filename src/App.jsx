@@ -7,12 +7,13 @@ import ProfilePage from './pages/ProfilePage';
 import Navbar from './ui/Navbar';
 import { Provider } from 'react-redux';
 import store from './app/store';
+import { ToggleColorModeProvider } from './utils/ToggleColorMode';
 
 const App = () => {
     const theme = createTheme();
     return (
         <Provider store={store}>
-            <ThemeProvider theme={theme}>
+            <ToggleColorModeProvider>
                 <BrowserRouter>
                     <Box sx={{ display: 'flex', height: '100vh' }}>
                         <CssBaseline />
@@ -45,7 +46,7 @@ const App = () => {
                         </Box>
                     </Box>
                 </BrowserRouter>
-            </ThemeProvider>
+            </ToggleColorModeProvider>
         </Provider>
     );
 };
