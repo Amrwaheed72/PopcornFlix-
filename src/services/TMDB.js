@@ -51,8 +51,11 @@ export const tmdbApi = createApi({
     }),
     getMoviesByActorId: builder.query({
       query: ({ actorId, page }) => `/discover/movie?with_cast=${actorId}&page=${page}`
+    }),
+    getList: builder.query({
+      query: ({ listName, accountId, sessionId, page }) => `/account/${accountId}/${listName}?session_id=${sessionId}&page=${page}`
     })
   }),
 });
 
-export const { useGetMoviesQuery, useGetGenresQuery, useGetMovieQuery, useGetCreditsQuery, useGetRecommendationsQuery, useGetActorQuery, useGetMoviesByActorIdQuery } = tmdbApi;
+export const { useGetMoviesQuery, useGetGenresQuery, useGetMovieQuery, useGetCreditsQuery, useGetRecommendationsQuery, useGetActorQuery, useGetMoviesByActorIdQuery, useGetListQuery } = tmdbApi;
